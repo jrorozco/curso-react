@@ -1,25 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react';
+import Header from "./components/Header";
+import SendTweet from "./components/SendTweet";
+import {Container, Snackbar} from "@material-ui/core";
+import {TWEET_STORAGE} from './utils/constants';
+
 
 function App() {
+  const [toastProps, setToastProps] = useState({
+    open:false,
+    text:null
+  });
+  const [allTweets, setAllTweets] =useState([]);
+  useEffect( ()=> {
+    const AllTweetsStorage = localStorage.getItem(TWEET_STORAGE);
+    const AllTweetsArray = JSON.stringify(AllTweetsStorage);
+    setAllTweets(AllTweetsArray);
+  }, []);
+  console.log(setAllTweets);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <Container className="tweets-simulator" maxWidth={false}>
+    <Header />
+    <SendTweet setToastProps={setToastProps} allTweets={allTweets}/>
+    
+    <Snackbar 
+      anchorOrigin={{
+        vertical:"top",
+        horizontal:"right"
+      }}
+      open={toastProps.open}
+      autoHideDuration={1000}
+      message={<span id="message-id" >{toastProps.text}</span>}
+    />
+   </Container>
   );
 }
 
