@@ -6,6 +6,7 @@ import moment from 'moment';
 import ModalContainer from '../ModalContainer';
 import FormSendTweet from '../FormSendTweet';
 import { TWEET_STORAGE } from '../../utils/constants';
+//import { allSettled } from 'q';
 
 export default function SendTweet(props) {
 
@@ -16,6 +17,10 @@ export default function SendTweet(props) {
         event.preventDefault();
        const { name, tweet} = formValue; // guadamos el objeto destructurado que nos llega por argumento...
         let allTweetsArray=[];// declaramos un array para obtener los datos del formulario
+        if(allTweets) {
+            allTweetsArray=allTweets;
+        }
+
         if(!name || !tweet) {
             console.log('WARNING : Todos los campos on obligatorios');
             setToastProps({
